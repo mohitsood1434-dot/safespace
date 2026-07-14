@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SafeSpace — You're not alone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Nunito:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FBF8F3;
+    --ink:#22343A;
+    --muted:#5E6E73;
+    --teal:#124559;
+    --teal-soft:#E4F0EC;
+    --teal-mid:#1B7B7B;
+    --sos:#C6432E;
+    --sos-soft:#FBE6E1;
+    --gold:#E0932F;
+    --gold-soft:#FBF0DC;
+    --lav:#5E4B8B;
+    --lav-soft:#ECE7F6;
+    --line:#E7DFD3;
+    --card:#FFFFFF;
+    --radius:20px;
+    --shadow:0 10px 30px -18px rgba(18,69,89,.45);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Nunito',system-ui,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body[data-lang="hi"]{font-family:'Noto Sans Devanagari','Nunito',sans-serif}
+  body[data-lang="pa"]{font-family:'Noto Sans Gurmukhi','Nunito',sans-serif}
+  .wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+  body[data-lang="hi"] h1,body[data-lang="hi"] h2,body[data-lang="hi"] h3{font-family:'Noto Sans Devanagari',serif;font-weight:700}
+  body[data-lang="pa"] h1,body[data-lang="pa"] h2,body[data-lang="pa"] h3{font-family:'Noto Sans Gurmukhi',serif;font-weight:700}
+  a{color:inherit}
+
+  /* ---------- Top bar ---------- */
+  header{position:sticky;top:0;z-index:50;background:rgba(251,248,243,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--teal)}
+  .logo .mark{width:30px;height:30px;flex:none;border-radius:9px;background:var(--teal);display:grid;place-items:center}
+  .logo .mark svg{width:17px;height:17px}
+  .lang{display:flex;gap:4px;background:var(--teal-soft);padding:4px;border-radius:999px}
+  .lang button{border:0;background:transparent;cursor:pointer;padding:6px 12px;border-radius:999px;font-family:inherit;font-size:13px;font-weight:700;color:var(--teal);transition:.2s}
+  .lang button.on{background:var(--teal);color:#fff}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:56px 0 40px;position:relative}
+  .hero .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--teal-mid);letter-spacing:.04em;text-transform:uppercase;margin-bottom:18px}
+  .hero .pulse{width:9px;height:9px;border-radius:50%;background:var(--teal-mid);animation:breathe 3.5s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.5);opacity:1}}
+  .hero h1{font-size:clamp(34px,6vw,58px);color:var(--teal);max-width:16ch}
+  .hero h1 em{font-style:normal;color:var(--gold)}
+  .hero p{font-size:clamp(16px,2.2vw,19px);color:var(--muted);max-width:52ch;margin-top:18px}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .btn{display:inline-flex;align-items:center;gap:9px;border:0;cursor:pointer;font-family:inherit;font-weight:800;font-size:16px;padding:15px 24px;border-radius:14px;text-decoration:none;transition:transform .15s,box-shadow .15s}
+  .btn:active{transform:translateY(1px)}
+  .btn-sos{background:var(--sos);color:#fff;box-shadow:0 10px 24px -12px rgba(198,67,46,.8)}
+  .btn-sos:hover{box-shadow:0 14px 28px -12px rgba(198,67,46,.9)}
+  .btn-ghost{background:#fff;color:var(--teal);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--teal)}
+
+  /* ---------- Section shells ---------- */
+  section{padding:40px 0}
+  .sec-head{margin-bottom:26px}
+  .sec-head .tag{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 11px;border-radius:999px;margin-bottom:12px}
+  .sec-head h2{font-size:clamp(26px,4vw,36px)}
+  .sec-head p{color:var(--muted);max-width:56ch;margin-top:8px}
+  .t-teal .tag{background:var(--teal-soft);color:var(--teal)}
+  .t-gold .tag{background:var(--gold-soft);color:#a56a15}
+  .t-lav .tag{background:var(--lav-soft);color:var(--lav)}
+  .t-sos .tag{background:var(--sos-soft);color:var(--sos)}
+
+  /* ---------- Helpline cards ---------- */
+  .helplines{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+  .hl{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow);text-decoration:none;transition:transform .15s}
+  .hl:hover{transform:translateY(-3px)}
+  .hl .num{font-family:'Fraunces',serif;font-size:34px;font-weight:700;color:var(--sos);line-height:1}
+  body[data-lang] .hl .num{font-family:'Fraunces',serif}
+  .hl .who{font-weight:800;font-size:15px}
+  .hl .desc{font-size:13.5px;color:var(--muted)}
+  .hl .call{margin-top:8px;font-size:13px;font-weight:800;color:var(--teal-mid)}
+  .hl.portal .num{font-size:20px;color:var(--teal);word-break:break-all}
+
+  /* ---------- Awareness cards ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}
+  .card .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:14px;background:var(--teal-soft)}
+  .card .ic svg{width:22px;height:22px;stroke:var(--teal)}
+  .card h3{font-size:19px;margin-bottom:7px}
+  .card p{font-size:14.5px;color:var(--muted)}
+  .card .safe{margin-top:12px;font-size:13px;font-weight:700;color:var(--teal-mid);background:var(--teal-soft);padding:8px 12px;border-radius:10px;display:inline-block}
+
+  /* ---------- Steps ---------- */
+  .steps{display:grid;gap:14px}
+  .step{display:flex;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow)}
+  .step .n{flex:none;width:38px;height:38px;border-radius:11px;background:var(--gold);color:#fff;display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:700;font-size:19px}
+  .step h3{font-size:18px;margin-bottom:4px}
+  .step p{font-size:14.5px;color:var(--muted)}
+  .adult{background:var(--gold-soft);border:1px solid #efd9a8;border-radius:var(--radius);padding:22px;display:flex;gap:16px;align-items:flex-start;margin-bottom:20px}
+  .adult .ic{flex:none;width:44px;height:44px;border-radius:12px;background:var(--gold);display:grid;place-items:center}
+  .adult .ic svg{width:24px;height:24px;stroke:#fff}
+  .adult h3{font-size:19px;color:#8a5a12;margin-bottom:4px}
+  .adult p{font-size:15px;color:#7a5a2a}
+
+  /* ---------- Evidence ---------- */
+  .ev{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .ev .do,.ev .dont{border-radius:var(--radius);padding:22px;border:1px solid var(--line)}
+  .ev .do{background:var(--teal-soft)}
+  .ev .dont{background:var(--sos-soft)}
+  .ev h3{font-size:17px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .ev ul{list-style:none;display:grid;gap:9px}
+  .ev li{font-size:14px;padding-left:24px;position:relative;color:var(--ink)}
+  .ev .do li:before{content:"✓";position:absolute;left:0;color:var(--teal-mid);font-weight:900}
+  .ev .dont li:before{content:"✕";position:absolute;left:0;color:var(--sos);font-weight:900}
+
+  /* ---------- Wellness ---------- */
+  .wellness{background:linear-gradient(180deg,var(--lav-soft),#fff);border:1px solid #ddd2f0;border-radius:28px;padding:30px}
+  .well-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:center}
+  .breath-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;padding:14px}
+  .breather{width:170px;height:170px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#8a76c4,#5E4B8B);display:grid;place-items:center;color:#fff;font-weight:800;font-size:17px;text-align:center;transition:transform 4s ease-in-out;box-shadow:0 20px 50px -20px rgba(94,75,139,.8)}
+  .breather.go{animation:breatheBig 8s ease-in-out infinite}
+  @keyframes breatheBig{0%,100%{transform:scale(.78)}50%{transform:scale(1.12)}}
+  .breath-btn{background:var(--lav);color:#fff;border:0;cursor:pointer;font-family:inherit;font-weight:800;padding:11px 22px;border-radius:12px;font-size:15px}
+  .well-copy h3{color:var(--lav);font-size:22px;margin-bottom:10px}
+  .well-copy p{color:#4a4066;font-size:15px;margin-bottom:14px}
+  .well-copy ul{list-style:none;display:grid;gap:8px}
+  .well-copy li{font-size:14.5px;color:#4a4066;padding-left:22px;position:relative}
+  .well-copy li:before{content:"♡";position:absolute;left:0;color:var(--lav)}
+
+  /* ---------- Report box ---------- */
+  .report{background:var(--teal);color:#fff;border-radius:28px;padding:34px;text-align:center}
+  .report h2{color:#fff;font-size:clamp(24px,3.5vw,32px)}
+  .report p{color:#cfe3e2;max-width:48ch;margin:12px auto 22px}
+  .report .btn-ghost{background:#fff;color:var(--teal);border:0}
+  .report small{display:block;margin-top:16px;color:#a7cac9;font-size:12.5px}
+
+  /* ---------- Quiz ---------- */
+  .quiz{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow)}
+  .quiz .q{font-size:19px;font-weight:800;margin-bottom:16px}
+  .quiz .opts{display:grid;gap:10px}
+  .quiz .opt{text-align:left;background:var(--paper);border:1.5px solid var(--line);border-radius:13px;padding:14px 16px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:600;transition:.15s}
+  .quiz .opt:hover{border-color:var(--teal-mid)}
+  .quiz .opt.correct{background:var(--teal-soft);border-color:var(--teal-mid);color:var(--teal)}
+  .quiz .opt.wrong{background:var(--sos-soft);border-color:var(--sos);color:var(--sos)}
+  .quiz .feedback{margin-top:16px;font-size:14.5px;font-weight:700;color:var(--teal-mid);min-height:22px}
+  .quiz .qbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:13px;font-weight:800;color:var(--muted)}
+  .quiz .next{background:var(--teal);color:#fff;border:0;cursor:pointer;font-family:inherit;font-weight:800;padding:11px 20px;border-radius:12px;margin-top:16px;font-size:14px;display:none}
+
+  /* ---------- Floating help ---------- */
+  .float{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--sos);color:#fff;border:0;cursor:pointer;font-family:inherit;font-weight:800;font-size:15px;padding:14px 20px;border-radius:999px;box-shadow:0 14px 34px -10px rgba(198,67,46,.9);display:flex;align-items:center;gap:8px;text-decoration:none}
+  .float svg{width:18px;height:18px}
+
+  footer{text-align:center;padding:36px 20px 96px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line);margin-top:30px}
+  footer strong{color:var(--teal)}
+  footer .fcredit{font-size:15px}
+  footer .fnames{margin-top:12px;color:var(--ink);font-size:16px}
+  footer .fnames b{color:var(--teal)}
+  footer .frole{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--teal);background:var(--teal-soft);padding:3px 9px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  footer .fnames2{margin-top:5px;font-size:13.5px;color:var(--muted)}
+  footer .fsep{color:var(--line)}
+  footer .fschool{margin-top:10px;font-size:13px;color:var(--gold);font-weight:700}
+  footer .fnote{margin-top:14px;max-width:60ch;margin-left:auto;margin-right:auto;font-size:12.5px}
+
+  @media(max-width:720px){
+    .well-grid{grid-template-columns:1fr}
+    .ev{grid-template-columns:1fr}
+    .hero{padding:38px 0 26px}
+    .logo span.full{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;scroll-behavior:auto!important;transition:none!important}
+  }
+</style>
+</head>
+<body data-lang="en">
+
+<header>
+  <div class="wrap bar">
+    <div class="logo">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" fill="#fff"/></svg></span>
+      <span class="full">SafeSpace</span>
+    </div>
+    <div class="lang" role="group" aria-label="Language">
+      <button data-setlang="en" class="on">EN</button>
+      <button data-setlang="hi">हिंदी</button>
+      <button data-setlang="pa">ਪੰਜਾਬੀ</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow"><span class="pulse"></span><span data-i="eyebrow">A safe place to speak up</span></span>
+    <h1><span data-i="heroA">If something feels wrong,</span> <em data-i="heroB">you can get help.</em></h1>
+    <p data-i="heroP">Bullying, mean messages, online scams, or anything that scares you — it is not your fault, and you don't have to deal with it alone. Here's what to do and who to tell.</p>
+    <div class="cta-row">
+      <a href="#help" class="btn btn-sos"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#fff" stroke-width="2.2"><path d="M12 5v14M5 12h14"/></svg><span data-i="ctaHelp">I need help now</span></a>
+      <a href="#learn" class="btn btn-ghost"><span data-i="ctaLearn">Learn what to do</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- HELPLINES -->
+<section id="help" class="t-sos">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag" data-i="hlTag">Emergency help</span>
+      <h2 data-i="hlHead">Free helplines — call any time</h2>
+      <p data-i="hlSub">These are official, free, 24×7 numbers in India. You can stay anonymous. Save them in your phone right now.</p>
+    </div>
+    <div class="helplines">
+      <a href="tel:1098" class="hl">
+        <span class="num">1098</span>
+        <span class="who" data-i="hl1who">Childline</span>
+        <span class="desc" data-i="hl1desc">For anyone under 18 in any kind of trouble. Free, 24×7, anonymous.</span>
+        <span class="call" data-i="tapCall">Tap to call →</span>
+      </a>
+      <a href="tel:1930" class="hl">
+        <span class="num">1930</span>
+        <span class="who" data-i="hl2who">Cyber Crime</span>
+        <span class="desc" data-i="hl2desc">Online fraud, hacked accounts, money scams and cyber crimes.</span>
+        <span class="call" data-i="tapCall">Tap to call →</span>
+      </a>
+      <a href="tel:112" class="hl">
+        <span class="num">112</span>
+        <span class="who" data-i="hl3who">Emergency</span>
+        <span class="desc" data-i="hl3desc">Police, ambulance, fire — when someone is in immediate danger.</span>
+        <span class="call" data-i="tapCall">Tap to call →</span>
+      </a>
+      <a href="tel:181" class="hl">
+        <span class="num">181</span>
+        <span class="who" data-i="hl4who">Women's Helpline</span>
+        <span class="desc" data-i="hl4desc">For girls and women facing harassment or unsafe situations.</span>
+        <span class="call" data-i="tapCall">Tap to call →</span>
+      </a>
+      <a href="https://cybercrime.gov.in" target="_blank" rel="noopener" class="hl portal">
+        <span class="num">cybercrime.gov.in</span>
+        <span class="who" data-i="hl5who">Report cyber crime online</span>
+        <span class="desc" data-i="hl5desc">The government's official portal to report cyberbullying and online abuse.</span>
+        <span class="call" data-i="tapOpen">Tap to open →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- AWARENESS -->
+<section id="learn" class="t-teal">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag" data-i="awTag">Know it</span>
+      <h2 data-i="awHead">What is happening to me?</h2>
+      <p data-i="awSub">Sometimes it helps just to have a name for it. If any of these feel familiar, it is real and it matters.</p>
+    </div>
+    <div class="cards" id="awCards"></div>
+  </div>
+</section>
+
+<!-- HOW TO REPORT -->
+<section class="t-gold">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag" data-i="rpTag">Take action</span>
+      <h2 data-i="rpHead">How to report it</h2>
+      <p data-i="rpSub">You don't have to figure this out alone. Follow these steps in order.</p>
+    </div>
+    <div class="adult">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 21c-4-3-8-6-8-11a4 4 0 018-1 4 4 0 018 1c0 5-4 8-8 11z"/></svg></span>
+      <div>
+        <h3 data-i="adultH">First, tell a trusted adult</h3>
+        <p data-i="adultP">A parent, teacher, school counsellor, or any grown-up you trust. Telling someone is the bravest and most important step — you are not "tattling," you are keeping yourself safe.</p>
+      </div>
+    </div>
+    <div class="steps" id="steps"></div>
+  </div>
+</section>
+
+<!-- EVIDENCE -->
+<section class="t-teal">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag" data-i="evTag">Keep proof</span>
+      <h2 data-i="evHead">Save the evidence</h2>
+      <p data-i="evSub">If it happened online, proof helps adults and police take action. Do this before anything gets deleted.</p>
+    </div>
+    <div class="ev">
+      <div class="do">
+        <h3 data-i="evDoH">✓ Do this</h3>
+        <ul id="evDo"></ul>
+      </div>
+      <div class="dont">
+        <h3 data-i="evDontH">✕ Avoid this</h3>
+        <ul id="evDont"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WELLNESS -->
+<section class="t-lav">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag" data-i="weTag">Take care of you</span>
+      <h2 data-i="weHead">Wellness corner</h2>
+      <p data-i="weSub">Being hurt online or at school can make you feel anxious, sad, or alone. Those feelings are normal — and they get better.</p>
+    </div>
+    <div class="wellness">
+      <div class="well-grid">
+        <div class="breath-wrap">
+          <div class="breather" id="breather" data-i="breathIdle">Tap start</div>
+          <button class="breath-btn" id="breathBtn" data-i="breathStart">Start breathing</button>
+        </div>
+        <div class="well-copy">
+          <h3 data-i="weCopyH">You are not alone 💜</h3>
+          <p data-i="weCopyP">When it all feels like too much, try these small things:</p>
+          <ul id="weList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHOOL REPORT -->
+<section>
+  <div class="wrap">
+    <div class="report">
+      <h2 data-i="srHead">Tell your school — safely</h2>
+      <p data-i="srP">Want to report something to a teacher without standing out in class? Send a quiet message to the school's care team. You can leave your name out if you want.</p>
+      <a class="btn btn-ghost" id="schoolReport" href="https://forms.office.com/r/zKQe11Q2X1" target="_blank" rel="noopener"><span data-i="srBtn">Open the private form</span></a>
+      <small data-i="srNote">Opens the school's secure form. You can leave your name blank.</small>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="t-teal">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag" data-i="qzTag">Quick check</span>
+      <h2 data-i="qzHead">Are you safe-smart?</h2>
+      <p data-i="qzSub">A tiny quiz to help you spot trouble early. No score, no pressure.</p>
+    </div>
+    <div class="quiz" id="quiz">
+      <div class="qbar"><span id="qCount"></span></div>
+      <div class="q" id="qText"></div>
+      <div class="opts" id="qOpts"></div>
+      <div class="feedback" id="qFb"></div>
+      <button class="next" id="qNext" data-i="qNext">Next question →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="fcredit"><strong>SafeSpace</strong> — <span data-i="footA">a student wellbeing project</span></p>
+  <p class="fnames"><span data-i="fBy">Created by</span> <b>Ciona Dewan</b> <span class="frole" data-i="fStudent">Student Creator</span></p>
+  <p class="fnames2"><span data-i="fGuide">Mentored by</span> Mohit Sood <span class="fsep">·</span> <span data-i="fGuideRole">Faculty Guide</span></p>
+  <p class="fnames2"><span data-i="fHead">Under the guidance of</span> Raghu <span class="fsep">·</span> <span data-i="fHeadRole">Head of Department</span></p>
+  <p class="fschool">Invictus International School, Amritsar</p>
+  <p data-i="footB" class="fnote">This app gives guidance and helplines. In real danger, always call 112 or tell a trusted adult right away.</p>
+</footer>
+
+<a href="#help" class="float"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span data-i="floatBtn">Get help</span></a>
+
+<script>
+/* ============ CONTENT (EN / HI / PA) ============ */
+const I = {
+  en:{
+    eyebrow:"A safe place to speak up",
+    heroA:"If something feels wrong,", heroB:"you can get help.",
+    heroP:"Bullying, mean messages, online scams, or anything that scares you — it is not your fault, and you don't have to deal with it alone. Here's what to do and who to tell.",
+    ctaHelp:"I need help now", ctaLearn:"Learn what to do",
+    hlTag:"Emergency help", hlHead:"Free helplines — call any time",
+    hlSub:"These are official, free, 24×7 numbers in India. You can stay anonymous. Save them in your phone right now.",
+    hl1who:"Childline", hl1desc:"For anyone under 18 in any kind of trouble. Free, 24×7, anonymous.",
+    hl2who:"Cyber Crime", hl2desc:"Online fraud, hacked accounts, money scams and cyber crimes.",
+    hl3who:"Emergency", hl3desc:"Police, ambulance, fire — when someone is in immediate danger.",
+    hl4who:"Women's Helpline", hl4desc:"For girls and women facing harassment or unsafe situations.",
+    hl5who:"Report cyber crime online", hl5desc:"The government's official portal to report cyberbullying and online abuse.",
+    tapCall:"Tap to call →", tapOpen:"Tap to open →",
+    awTag:"Know it", awHead:"What is happening to me?",
+    awSub:"Sometimes it helps just to have a name for it. If any of these feel familiar, it is real and it matters.",
+    rpTag:"Take action", rpHead:"How to report it",
+    rpSub:"You don't have to figure this out alone. Follow these steps in order.",
+    adultH:"First, tell a trusted adult",
+    adultP:"A parent, teacher, school counsellor, or any grown-up you trust. Telling someone is the bravest and most important step — you are not \"tattling,\" you are keeping yourself safe.",
+    evTag:"Keep proof", evHead:"Save the evidence",
+    evSub:"If it happened online, proof helps adults and police take action. Do this before anything gets deleted.",
+    evDoH:"✓ Do this", evDontH:"✕ Avoid this",
+    weTag:"Take care of you", weHead:"Wellness corner",
+    weSub:"Being hurt online or at school can make you feel anxious, sad, or alone. Those feelings are normal — and they get better.",
+    weCopyH:"You are not alone 💜", weCopyP:"When it all feels like too much, try these small things:",
+    breathIdle:"Tap start", breathStart:"Start breathing", breathStop:"Stop", breatheIn:"Breathe in…", breatheHold:"Hold…", breatheOut:"Breathe out…",
+    srHead:"Tell your school — safely",
+    srP:"Want to report something to a teacher without standing out in class? Send a quiet message to the school's care team. You can leave your name out if you want.",
+    srBtn:"Open the private form",
+    srNote:"Opens the school's secure form. You can leave your name blank.",
+    qzTag:"Quick check", qzHead:"Are you safe-smart?",
+    qzSub:"A tiny quiz to help you spot trouble early. No score, no pressure.",
+    qNext:"Next question →", qDone:"You finished! Remember: when in doubt, tell a trusted adult. 💚",
+    footA:"a student wellbeing project",
+    fBy:"Created by", fStudent:"Student Creator", fGuide:"Mentored by", fGuideRole:"Faculty Guide", fHead:"Under the guidance of", fHeadRole:"Head of Department",
+    footB:"This app gives guidance and helplines. In real danger, always call 112 or tell a trusted adult right away.",
+    floatBtn:"Get help",
+    cards:[
+      {t:"Cyberbullying",d:"Someone keeps sending mean, embarrassing or threatening messages, or posts things to hurt you online.",s:"It is not your fault."},
+      {t:"Fake profiles",d:"Someone pretends to be you or someone else to trick, embarrass, or hurt you or your friends.",s:"You can report it."},
+      {t:"Online harassment",d:"Repeated unwanted messages, being followed, or someone asking for photos or personal details.",s:"You can say no."},
+      {t:"Scams & phishing",d:"Fake links, 'you won a prize' messages, or people trying to get your password, OTP, or money.",s:"Never share OTPs."},
+      {t:"Sextortion",d:"Someone threatens to share private photos or asks for them. This is a serious crime — tell an adult now.",s:"Adults can stop this."},
+      {t:"Bullying & ragging",d:"Being hit, threatened, left out, teased or forced to do things at school or on the way there.",s:"You deserve to feel safe."}
+    ],
+    steps:[
+      {h:"Don't reply, don't panic",d:"You don't need to argue back. Take a breath. Getting help is the goal, not winning a fight."},
+      {h:"Save the proof",d:"Take screenshots of messages, profiles and dates before blocking anyone (see the guide below)."},
+      {h:"Block and report inside the app",d:"Use the block and 'report' button in WhatsApp, Instagram, YouTube etc. to flag the person."},
+      {h:"Tell a trusted adult",d:"Show them what happened. Ask them to help you report it — you don't have to do the next parts alone."},
+      {h:"Report officially if needed",d:"Call 1098 or 1930, or file a report on cybercrime.gov.in with the adult helping you."}
+    ],
+    evDo:["Take clear screenshots of messages, usernames and dates","Save the profile link or phone number","Note the time and what happened","Show everything to a trusted adult","Keep proof even after you block the person"],
+    evDont:["Don't delete the messages or chat","Don't reply with angry messages","Don't share your OTP, password or photos","Don't meet the person alone","Don't keep it secret hoping it stops"],
+    weList:["Breathe slowly for one minute (try the circle)","Talk to someone you trust today","Write down how you feel — it helps","Take a break from the phone or app","Do one small kind thing for yourself"],
+    quiz:[
+      {q:"A stranger online asks for your photo and home address. What do you do?",o:["Send it to be polite","Don't share, block them, and tell an adult","Ask why they want it"],a:1,f:"Right. Never share personal info with strangers — block and tell an adult."},
+      {q:"You get a message: 'You won ₹10,000! Click this link and enter your OTP.' This is…",o:["A real prize","A scam — never enter your OTP","Worth trying"],a:1,f:"Correct — real prizes never ask for your OTP. It's a scam."},
+      {q:"A classmate keeps posting mean things about you. The best first step is…",o:["Post something mean back","Save screenshots and tell a trusted adult","Delete your account"],a:1,f:"Yes — save proof and tell someone who can help. Fighting back online rarely helps."},
+      {q:"Someone threatens to share a private photo of you. You should…",o:["Do what they say","Tell an adult and call 1098 right away","Handle it yourself quietly"],a:1,f:"Absolutely. This is a serious crime — get an adult and call for help immediately."}
+    ]
+  },
+  hi:{
+    eyebrow:"बोलने के लिए एक सुरक्षित जगह",
+    heroA:"अगर कुछ गलत लगे,", heroB:"तो मदद मिल सकती है।",
+    heroP:"बदमाशी, बुरे मैसेज, ऑनलाइन धोखा, या कोई भी चीज़ जो तुम्हें डराए — यह तुम्हारी गलती नहीं है, और तुम्हें इसे अकेले नहीं झेलना है। यहाँ बताया है कि क्या करना है और किसे बताना है।",
+    ctaHelp:"मुझे अभी मदद चाहिए", ctaLearn:"जानो क्या करना है",
+    hlTag:"आपातकालीन मदद", hlHead:"मुफ़्त हेल्पलाइन — कभी भी कॉल करो",
+    hlSub:"ये भारत के आधिकारिक, मुफ़्त, 24×7 नंबर हैं। तुम अपना नाम गुप्त रख सकते हो। इन्हें अभी अपने फ़ोन में सेव कर लो।",
+    hl1who:"चाइल्डलाइन", hl1desc:"18 साल से कम किसी भी बच्चे के लिए। मुफ़्त, 24×7, गुमनाम।",
+    hl2who:"साइबर क्राइम", hl2desc:"ऑनलाइन धोखा, हैक हुए अकाउंट, पैसों के फ्रॉड और साइबर अपराध।",
+    hl3who:"आपातकाल", hl3desc:"पुलिस, एम्बुलेंस, फ़ायर — जब कोई तुरंत खतरे में हो।",
+    hl4who:"महिला हेल्पलाइन", hl4desc:"परेशानी या असुरक्षित हालात में लड़कियों और महिलाओं के लिए।",
+    hl5who:"ऑनलाइन साइबर शिकायत", hl5desc:"साइबर बदमाशी और ऑनलाइन दुर्व्यवहार की शिकायत का सरकारी पोर्टल।",
+    tapCall:"कॉल करने के लिए दबाओ →", tapOpen:"खोलने के लिए दबाओ →",
+    awTag:"पहचानो", awHead:"मेरे साथ क्या हो रहा है?",
+    awSub:"कभी-कभी बस उसे एक नाम देना मदद करता है। अगर इनमें से कुछ जाना-पहचाना लगे, तो यह सच है और यह मायने रखता है।",
+    rpTag:"कदम उठाओ", rpHead:"शिकायत कैसे करें",
+    rpSub:"यह सब अकेले सुलझाने की ज़रूरत नहीं। इन कदमों को क्रम से अपनाओ।",
+    adultH:"सबसे पहले, किसी भरोसेमंद बड़े को बताओ",
+    adultP:"माता-पिता, टीचर, स्कूल काउंसलर, या कोई भी बड़ा जिस पर तुम्हें भरोसा हो। किसी को बताना सबसे बहादुरी वाला और ज़रूरी कदम है — यह \"चुगली\" नहीं है, तुम खुद को सुरक्षित रख रहे हो।",
+    evTag:"सबूत रखो", evHead:"सबूत सम्भाल कर रखो",
+    evSub:"अगर यह ऑनलाइन हुआ है, तो सबूत से बड़ों और पुलिस को कार्रवाई करने में मदद मिलती है। कुछ भी डिलीट होने से पहले यह करो।",
+    evDoH:"✓ यह करो", evDontH:"✕ यह मत करो",
+    weTag:"अपना ख्याल रखो", weHead:"वेलनेस कॉर्नर",
+    weSub:"ऑनलाइन या स्कूल में चोट लगने से घबराहट, उदासी या अकेलापन महसूस हो सकता है। ये भावनाएँ सामान्य हैं — और ठीक हो जाती हैं।",
+    weCopyH:"तुम अकेले नहीं हो 💜", weCopyP:"जब सब कुछ ज़्यादा लगे, तो ये छोटी चीज़ें आज़माओ:",
+    breathIdle:"शुरू करने के लिए दबाओ", breathStart:"साँस लेना शुरू करो", breathStop:"रोको", breatheIn:"साँस अंदर लो…", breatheHold:"रोको…", breatheOut:"साँस छोड़ो…",
+    srHead:"अपने स्कूल को बताओ — सुरक्षित तरीके से",
+    srP:"क्लास में सबके सामने आए बिना टीचर को कुछ बताना चाहते हो? स्कूल की केयर टीम को एक शांत मैसेज भेजो। चाहो तो अपना नाम न लिखो।",
+    srBtn:"निजी फ़ॉर्म खोलो",
+    srNote:"स्कूल का सुरक्षित फ़ॉर्म खुलेगा। चाहो तो अपना नाम खाली छोड़ सकते हो।",
+    qzTag:"झटपट जाँच", qzHead:"क्या तुम सुरक्षित-समझदार हो?",
+    qzSub:"एक छोटी क्विज़ जो तुम्हें खतरे को जल्दी पहचानने में मदद करे। कोई स्कोर नहीं, कोई दबाव नहीं।",
+    qNext:"अगला सवाल →", qDone:"तुमने पूरा किया! याद रखो: शक हो तो किसी भरोसेमंद बड़े को बताओ। 💚",
+    footA:"एक छात्र कल्याण प्रोजेक्ट",
+    fBy:"निर्माता", fStudent:"छात्र निर्माता", fGuide:"मार्गदर्शक", fGuideRole:"फैकल्टी गाइड", fHead:"मार्गदर्शन में", fHeadRole:"विभागाध्यक्ष",
+    footB:"यह ऐप मार्गदर्शन और हेल्पलाइन देता है। सच में खतरे में हो तो हमेशा 112 पर कॉल करो या तुरंत किसी भरोसेमंद बड़े को बताओ।",
+    floatBtn:"मदद लो",
+    cards:[
+      {t:"साइबरबुलिंग",d:"कोई बार-बार बुरे, शर्मिंदा करने वाले या धमकी भरे मैसेज भेजे, या तुम्हें दुख पहुँचाने के लिए ऑनलाइन कुछ पोस्ट करे।",s:"यह तुम्हारी गलती नहीं है।"},
+      {t:"नकली प्रोफाइल",d:"कोई तुम्हारा या किसी और का रूप धरकर तुम्हें या दोस्तों को धोखा दे या शर्मिंदा करे।",s:"तुम शिकायत कर सकते हो।"},
+      {t:"ऑनलाइन उत्पीड़न",d:"बार-बार अनचाहे मैसेज, पीछा करना, या फोटो या निजी जानकारी माँगना।",s:"तुम मना कर सकते हो।"},
+      {t:"धोखा और फिशिंग",d:"नकली लिंक, 'तुम्हारा इनाम लगा' वाले मैसेज, या तुम्हारा पासवर्ड, OTP या पैसा हड़पने की कोशिश।",s:"OTP कभी न बताओ।"},
+      {t:"सेक्सटॉर्शन",d:"कोई निजी फोटो शेयर करने की धमकी दे या माँगे। यह गंभीर अपराध है — अभी किसी बड़े को बताओ।",s:"बड़े इसे रोक सकते हैं।"},
+      {t:"बदमाशी और रैगिंग",d:"स्कूल में या रास्ते में मारना, धमकाना, अलग-थलग करना, चिढ़ाना या ज़बरदस्ती कुछ कराना।",s:"तुम्हें सुरक्षित महसूस करने का हक़ है।"}
+    ],
+    steps:[
+      {h:"जवाब मत दो, घबराओ मत",d:"तुम्हें बहस करने की ज़रूरत नहीं। एक साँस लो। मकसद मदद पाना है, झगड़ा जीतना नहीं।"},
+      {h:"सबूत सम्भालो",d:"किसी को ब्लॉक करने से पहले मैसेज, प्रोफाइल और तारीख़ों के स्क्रीनशॉट लो (नीचे गाइड देखो)।"},
+      {h:"ऐप के अंदर ब्लॉक और रिपोर्ट करो",d:"WhatsApp, Instagram, YouTube आदि में ब्लॉक और 'रिपोर्ट' बटन से उस व्यक्ति की शिकायत करो।"},
+      {h:"किसी भरोसेमंद बड़े को बताओ",d:"उन्हें दिखाओ कि क्या हुआ। शिकायत करने में मदद माँगो — आगे के कदम अकेले उठाने की ज़रूरत नहीं।"},
+      {h:"ज़रूरत हो तो आधिकारिक शिकायत करो",d:"1098 या 1930 पर कॉल करो, या मदद कर रहे बड़े के साथ cybercrime.gov.in पर शिकायत दर्ज करो।"}
+    ],
+    evDo:["मैसेज, यूज़रनेम और तारीख़ों के साफ़ स्क्रीनशॉट लो","प्रोफाइल लिंक या फ़ोन नंबर सेव करो","समय और क्या हुआ, नोट करो","सब कुछ किसी भरोसेमंद बड़े को दिखाओ","व्यक्ति को ब्लॉक करने के बाद भी सबूत रखो"],
+    evDont:["मैसेज या चैट डिलीट मत करो","गुस्से भरे जवाब मत भेजो","अपना OTP, पासवर्ड या फोटो शेयर मत करो","उस व्यक्ति से अकेले मत मिलो","यह सोचकर छुपाओ मत कि अपने-आप रुक जाएगा"],
+    weList:["एक मिनट धीरे-धीरे साँस लो (गोले को आज़माओ)","आज किसी भरोसेमंद से बात करो","अपनी भावनाएँ लिखो — इससे राहत मिलती है","फ़ोन या ऐप से थोड़ा ब्रेक लो","खुद के लिए एक छोटी अच्छी चीज़ करो"],
+    quiz:[
+      {q:"एक अनजान ऑनलाइन व्यक्ति तुम्हारी फोटो और घर का पता माँगता है। तुम क्या करोगे?",o:["शिष्टता से भेज दो","शेयर मत करो, ब्लॉक करो और बड़े को बताओ","पूछो कि क्यों चाहिए"],a:1,f:"सही। अनजान लोगों को निजी जानकारी कभी न दो — ब्लॉक करो और बड़े को बताओ।"},
+      {q:"मैसेज आया: 'तुम्हें ₹10,000 जीते! इस लिंक पर क्लिक करके OTP डालो।' यह है…",o:["असली इनाम","धोखा — OTP कभी मत डालो","आज़माने लायक"],a:1,f:"सही — असली इनाम कभी OTP नहीं माँगते। यह धोखा है।"},
+      {q:"एक सहपाठी बार-बार तुम्हारे बारे में बुरा पोस्ट करता है। सबसे अच्छा पहला कदम…",o:["बदले में बुरा पोस्ट करो","स्क्रीनशॉट सम्भालो और भरोसेमंद बड़े को बताओ","अपना अकाउंट डिलीट करो"],a:1,f:"हाँ — सबूत रखो और मदद करने वाले को बताओ। ऑनलाइन जवाबी झगड़ा शायद ही मदद करता है।"},
+      {q:"कोई तुम्हारी निजी फोटो शेयर करने की धमकी देता है। तुम्हें…",o:["उनकी बात मान लो","बड़े को बताओ और तुरंत 1098 पर कॉल करो","चुपचाप खुद निपटो"],a:1,f:"बिल्कुल। यह गंभीर अपराध है — किसी बड़े को साथ लो और तुरंत मदद के लिए कॉल करो।"}
+    ]
+  },
+  pa:{
+    eyebrow:"ਬੋਲਣ ਲਈ ਇੱਕ ਸੁਰੱਖਿਅਤ ਥਾਂ",
+    heroA:"ਜੇ ਕੁਝ ਗਲਤ ਲੱਗੇ,", heroB:"ਤਾਂ ਮਦਦ ਮਿਲ ਸਕਦੀ ਹੈ।",
+    heroP:"ਧੌਂਸ, ਭੈੜੇ ਸੁਨੇਹੇ, ਆਨਲਾਈਨ ਧੋਖਾ, ਜਾਂ ਕੋਈ ਵੀ ਚੀਜ਼ ਜੋ ਤੁਹਾਨੂੰ ਡਰਾਵੇ — ਇਹ ਤੁਹਾਡੀ ਗਲਤੀ ਨਹੀਂ, ਅਤੇ ਤੁਹਾਨੂੰ ਇਹ ਇਕੱਲੇ ਨਹੀਂ ਝੱਲਣਾ ਪੈਂਦਾ। ਇੱਥੇ ਦੱਸਿਆ ਹੈ ਕਿ ਕੀ ਕਰਨਾ ਹੈ ਅਤੇ ਕਿਸ ਨੂੰ ਦੱਸਣਾ ਹੈ।",
+    ctaHelp:"ਮੈਨੂੰ ਹੁਣੇ ਮਦਦ ਚਾਹੀਦੀ ਹੈ", ctaLearn:"ਜਾਣੋ ਕੀ ਕਰਨਾ ਹੈ",
+    hlTag:"ਐਮਰਜੈਂਸੀ ਮਦਦ", hlHead:"ਮੁਫ਼ਤ ਹੈਲਪਲਾਈਨ — ਕਦੇ ਵੀ ਕਾਲ ਕਰੋ",
+    hlSub:"ਇਹ ਭਾਰਤ ਦੇ ਸਰਕਾਰੀ, ਮੁਫ਼ਤ, 24×7 ਨੰਬਰ ਹਨ। ਤੁਸੀਂ ਆਪਣਾ ਨਾਂ ਗੁਪਤ ਰੱਖ ਸਕਦੇ ਹੋ। ਇਹ ਹੁਣੇ ਆਪਣੇ ਫ਼ੋਨ ਵਿੱਚ ਸੇਵ ਕਰ ਲਓ।",
+    hl1who:"ਚਾਈਲਡਲਾਈਨ", hl1desc:"18 ਸਾਲ ਤੋਂ ਘੱਟ ਹਰ ਬੱਚੇ ਲਈ। ਮੁਫ਼ਤ, 24×7, ਗੁਮਨਾਮ।",
+    hl2who:"ਸਾਈਬਰ ਕ੍ਰਾਈਮ", hl2desc:"ਆਨਲਾਈਨ ਧੋਖਾ, ਹੈਕ ਹੋਏ ਖਾਤੇ, ਪੈਸੇ ਦੇ ਫਰਾਡ ਅਤੇ ਸਾਈਬਰ ਜੁਰਮ।",
+    hl3who:"ਐਮਰਜੈਂਸੀ", hl3desc:"ਪੁਲਿਸ, ਐਂਬੂਲੈਂਸ, ਫ਼ਾਇਰ — ਜਦੋਂ ਕੋਈ ਤੁਰੰਤ ਖ਼ਤਰੇ ਵਿੱਚ ਹੋਵੇ।",
+    hl4who:"ਮਹਿਲਾ ਹੈਲਪਲਾਈਨ", hl4desc:"ਪਰੇਸ਼ਾਨੀ ਜਾਂ ਅਸੁਰੱਖਿਅਤ ਹਾਲਾਤ ਵਿੱਚ ਕੁੜੀਆਂ ਅਤੇ ਔਰਤਾਂ ਲਈ।",
+    hl5who:"ਆਨਲਾਈਨ ਸਾਈਬਰ ਸ਼ਿਕਾਇਤ", hl5desc:"ਸਾਈਬਰ ਧੌਂਸ ਅਤੇ ਆਨਲਾਈਨ ਦੁਰਵਿਹਾਰ ਦੀ ਸ਼ਿਕਾਇਤ ਦਾ ਸਰਕਾਰੀ ਪੋਰਟਲ।",
+    tapCall:"ਕਾਲ ਕਰਨ ਲਈ ਦਬਾਓ →", tapOpen:"ਖੋਲ੍ਹਣ ਲਈ ਦਬਾਓ →",
+    awTag:"ਪਛਾਣੋ", awHead:"ਮੇਰੇ ਨਾਲ ਕੀ ਹੋ ਰਿਹਾ ਹੈ?",
+    awSub:"ਕਈ ਵਾਰ ਸਿਰਫ਼ ਉਸ ਨੂੰ ਇੱਕ ਨਾਂ ਦੇਣਾ ਮਦਦ ਕਰਦਾ ਹੈ। ਜੇ ਇਨ੍ਹਾਂ ਵਿੱਚੋਂ ਕੁਝ ਜਾਣਿਆ-ਪਛਾਣਿਆ ਲੱਗੇ, ਤਾਂ ਇਹ ਸੱਚ ਹੈ ਅਤੇ ਇਹ ਮਾਇਨੇ ਰੱਖਦਾ ਹੈ।",
+    rpTag:"ਕਦਮ ਚੁੱਕੋ", rpHead:"ਸ਼ਿਕਾਇਤ ਕਿਵੇਂ ਕਰੀਏ",
+    rpSub:"ਇਹ ਸਭ ਇਕੱਲੇ ਹੱਲ ਕਰਨ ਦੀ ਲੋੜ ਨਹੀਂ। ਇਨ੍ਹਾਂ ਕਦਮਾਂ ਨੂੰ ਤਰਤੀਬ ਨਾਲ ਅਪਣਾਓ।",
+    adultH:"ਪਹਿਲਾਂ, ਕਿਸੇ ਭਰੋਸੇਯੋਗ ਵੱਡੇ ਨੂੰ ਦੱਸੋ",
+    adultP:"ਮਾਪੇ, ਅਧਿਆਪਕ, ਸਕੂਲ ਕਾਊਂਸਲਰ, ਜਾਂ ਕੋਈ ਵੀ ਵੱਡਾ ਜਿਸ 'ਤੇ ਤੁਹਾਨੂੰ ਭਰੋਸਾ ਹੋਵੇ। ਕਿਸੇ ਨੂੰ ਦੱਸਣਾ ਸਭ ਤੋਂ ਬਹਾਦਰੀ ਵਾਲਾ ਅਤੇ ਜ਼ਰੂਰੀ ਕਦਮ ਹੈ — ਇਹ \"ਚੁਗਲੀ\" ਨਹੀਂ, ਤੁਸੀਂ ਆਪਣੇ ਆਪ ਨੂੰ ਸੁਰੱਖਿਅਤ ਰੱਖ ਰਹੇ ਹੋ।",
+    evTag:"ਸਬੂਤ ਰੱਖੋ", evHead:"ਸਬੂਤ ਸੰਭਾਲ ਕੇ ਰੱਖੋ",
+    evSub:"ਜੇ ਇਹ ਆਨਲਾਈਨ ਹੋਇਆ ਹੈ, ਤਾਂ ਸਬੂਤ ਨਾਲ ਵੱਡਿਆਂ ਅਤੇ ਪੁਲਿਸ ਨੂੰ ਕਾਰਵਾਈ ਕਰਨ ਵਿੱਚ ਮਦਦ ਮਿਲਦੀ ਹੈ। ਕੁਝ ਵੀ ਮਿਟਣ ਤੋਂ ਪਹਿਲਾਂ ਇਹ ਕਰੋ।",
+    evDoH:"✓ ਇਹ ਕਰੋ", evDontH:"✕ ਇਹ ਨਾ ਕਰੋ",
+    weTag:"ਆਪਣਾ ਧਿਆਨ ਰੱਖੋ", weHead:"ਵੈੱਲਨੈੱਸ ਕੌਰਨਰ",
+    weSub:"ਆਨਲਾਈਨ ਜਾਂ ਸਕੂਲ ਵਿੱਚ ਸੱਟ ਲੱਗਣ ਨਾਲ ਘਬਰਾਹਟ, ਉਦਾਸੀ ਜਾਂ ਇਕੱਲਾਪਣ ਮਹਿਸੂਸ ਹੋ ਸਕਦਾ ਹੈ। ਇਹ ਭਾਵਨਾਵਾਂ ਆਮ ਹਨ — ਅਤੇ ਠੀਕ ਹੋ ਜਾਂਦੀਆਂ ਹਨ।",
+    weCopyH:"ਤੁਸੀਂ ਇਕੱਲੇ ਨਹੀਂ ਹੋ 💜", weCopyP:"ਜਦੋਂ ਸਭ ਕੁਝ ਬਹੁਤ ਜ਼ਿਆਦਾ ਲੱਗੇ, ਤਾਂ ਇਹ ਛੋਟੀਆਂ ਚੀਜ਼ਾਂ ਅਜ਼ਮਾਓ:",
+    breathIdle:"ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਦਬਾਓ", breathStart:"ਸਾਹ ਲੈਣਾ ਸ਼ੁਰੂ ਕਰੋ", breathStop:"ਰੋਕੋ", breatheIn:"ਸਾਹ ਅੰਦਰ ਲਓ…", breatheHold:"ਰੋਕੋ…", breatheOut:"ਸਾਹ ਛੱਡੋ…",
+    srHead:"ਆਪਣੇ ਸਕੂਲ ਨੂੰ ਦੱਸੋ — ਸੁਰੱਖਿਅਤ ਤਰੀਕੇ ਨਾਲ",
+    srP:"ਕਲਾਸ ਵਿੱਚ ਸਭ ਦੇ ਸਾਹਮਣੇ ਆਏ ਬਿਨਾਂ ਅਧਿਆਪਕ ਨੂੰ ਕੁਝ ਦੱਸਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਸਕੂਲ ਦੀ ਕੇਅਰ ਟੀਮ ਨੂੰ ਇੱਕ ਚੁੱਪ ਸੁਨੇਹਾ ਭੇਜੋ। ਚਾਹੋ ਤਾਂ ਆਪਣਾ ਨਾਂ ਨਾ ਲਿਖੋ।",
+    srBtn:"ਨਿੱਜੀ ਫ਼ਾਰਮ ਖੋਲ੍ਹੋ",
+    srNote:"ਸਕੂਲ ਦਾ ਸੁਰੱਖਿਅਤ ਫ਼ਾਰਮ ਖੁੱਲ੍ਹੇਗਾ। ਚਾਹੋ ਤਾਂ ਆਪਣਾ ਨਾਂ ਖਾਲੀ ਛੱਡ ਸਕਦੇ ਹੋ।",
+    qzTag:"ਝਟਪਟ ਜਾਂਚ", qzHead:"ਕੀ ਤੁਸੀਂ ਸੁਰੱਖਿਆ-ਸਮਝਦਾਰ ਹੋ?",
+    qzSub:"ਇੱਕ ਛੋਟੀ ਕੁਇਜ਼ ਜੋ ਤੁਹਾਨੂੰ ਖ਼ਤਰੇ ਨੂੰ ਜਲਦੀ ਪਛਾਣਨ ਵਿੱਚ ਮਦਦ ਕਰੇ। ਕੋਈ ਸਕੋਰ ਨਹੀਂ, ਕੋਈ ਦਬਾਅ ਨਹੀਂ।",
+    qNext:"ਅਗਲਾ ਸਵਾਲ →", qDone:"ਤੁਸੀਂ ਪੂਰਾ ਕੀਤਾ! ਯਾਦ ਰੱਖੋ: ਸ਼ੱਕ ਹੋਵੇ ਤਾਂ ਕਿਸੇ ਭਰੋਸੇਯੋਗ ਵੱਡੇ ਨੂੰ ਦੱਸੋ। 💚",
+    footA:"ਇੱਕ ਵਿਦਿਆਰਥੀ ਭਲਾਈ ਪ੍ਰੋਜੈਕਟ",
+    fBy:"ਨਿਰਮਾਤਾ", fStudent:"ਵਿਦਿਆਰਥੀ ਨਿਰਮਾਤਾ", fGuide:"ਮਾਰਗਦਰਸ਼ਕ", fGuideRole:"ਫੈਕਲਟੀ ਗਾਈਡ", fHead:"ਮਾਰਗਦਰਸ਼ਨ ਹੇਠ", fHeadRole:"ਵਿਭਾਗ ਮੁਖੀ",
+    footB:"ਇਹ ਐਪ ਮਾਰਗਦਰਸ਼ਨ ਅਤੇ ਹੈਲਪਲਾਈਨ ਦਿੰਦੀ ਹੈ। ਸੱਚਮੁੱਚ ਖ਼ਤਰੇ ਵਿੱਚ ਹੋ ਤਾਂ ਹਮੇਸ਼ਾ 112 'ਤੇ ਕਾਲ ਕਰੋ ਜਾਂ ਤੁਰੰਤ ਕਿਸੇ ਭਰੋਸੇਯੋਗ ਵੱਡੇ ਨੂੰ ਦੱਸੋ।",
+    floatBtn:"ਮਦਦ ਲਓ",
+    cards:[
+      {t:"ਸਾਈਬਰਬੁਲਿੰਗ",d:"ਕੋਈ ਵਾਰ-ਵਾਰ ਭੈੜੇ, ਸ਼ਰਮਿੰਦਾ ਕਰਨ ਵਾਲੇ ਜਾਂ ਧਮਕੀ ਭਰੇ ਸੁਨੇਹੇ ਭੇਜੇ, ਜਾਂ ਤੁਹਾਨੂੰ ਦੁੱਖ ਦੇਣ ਲਈ ਆਨਲਾਈਨ ਕੁਝ ਪੋਸਟ ਕਰੇ।",s:"ਇਹ ਤੁਹਾਡੀ ਗਲਤੀ ਨਹੀਂ।"},
+      {t:"ਨਕਲੀ ਪ੍ਰੋਫਾਈਲ",d:"ਕੋਈ ਤੁਹਾਡਾ ਜਾਂ ਕਿਸੇ ਹੋਰ ਦਾ ਰੂਪ ਧਾਰ ਕੇ ਤੁਹਾਨੂੰ ਜਾਂ ਦੋਸਤਾਂ ਨੂੰ ਧੋਖਾ ਦੇਵੇ ਜਾਂ ਸ਼ਰਮਿੰਦਾ ਕਰੇ।",s:"ਤੁਸੀਂ ਸ਼ਿਕਾਇਤ ਕਰ ਸਕਦੇ ਹੋ।"},
+      {t:"ਆਨਲਾਈਨ ਪਰੇਸ਼ਾਨੀ",d:"ਵਾਰ-ਵਾਰ ਅਣਚਾਹੇ ਸੁਨੇਹੇ, ਪਿੱਛਾ ਕਰਨਾ, ਜਾਂ ਫੋਟੋ ਜਾਂ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਮੰਗਣਾ।",s:"ਤੁਸੀਂ ਨਾਂਹ ਕਰ ਸਕਦੇ ਹੋ।"},
+      {t:"ਧੋਖਾ ਅਤੇ ਫਿਸ਼ਿੰਗ",d:"ਨਕਲੀ ਲਿੰਕ, 'ਤੁਹਾਡਾ ਇਨਾਮ ਨਿਕਲਿਆ' ਵਾਲੇ ਸੁਨੇਹੇ, ਜਾਂ ਤੁਹਾਡਾ ਪਾਸਵਰਡ, OTP ਜਾਂ ਪੈਸਾ ਹੜੱਪਣ ਦੀ ਕੋਸ਼ਿਸ਼।",s:"OTP ਕਦੇ ਨਾ ਦੱਸੋ।"},
+      {t:"ਸੈਕਸਟੌਰਸ਼ਨ",d:"ਕੋਈ ਨਿੱਜੀ ਫੋਟੋ ਸਾਂਝੀ ਕਰਨ ਦੀ ਧਮਕੀ ਦੇਵੇ ਜਾਂ ਮੰਗੇ। ਇਹ ਗੰਭੀਰ ਜੁਰਮ ਹੈ — ਹੁਣੇ ਕਿਸੇ ਵੱਡੇ ਨੂੰ ਦੱਸੋ।",s:"ਵੱਡੇ ਇਸ ਨੂੰ ਰੋਕ ਸਕਦੇ ਹਨ।"},
+      {t:"ਧੌਂਸ ਅਤੇ ਰੈਗਿੰਗ",d:"ਸਕੂਲ ਵਿੱਚ ਜਾਂ ਰਾਹ ਵਿੱਚ ਮਾਰਨਾ, ਧਮਕਾਉਣਾ, ਅਲੱਗ ਕਰਨਾ, ਛੇੜਨਾ ਜਾਂ ਜ਼ਬਰਦਸਤੀ ਕੁਝ ਕਰਾਉਣਾ।",s:"ਤੁਹਾਨੂੰ ਸੁਰੱਖਿਅਤ ਮਹਿਸੂਸ ਕਰਨ ਦਾ ਹੱਕ ਹੈ।"}
+    ],
+    steps:[
+      {h:"ਜਵਾਬ ਨਾ ਦਿਓ, ਘਬਰਾਓ ਨਾ",d:"ਤੁਹਾਨੂੰ ਬਹਿਸ ਕਰਨ ਦੀ ਲੋੜ ਨਹੀਂ। ਇੱਕ ਸਾਹ ਲਓ। ਮਕਸਦ ਮਦਦ ਲੈਣਾ ਹੈ, ਝਗੜਾ ਜਿੱਤਣਾ ਨਹੀਂ।"},
+      {h:"ਸਬੂਤ ਸੰਭਾਲੋ",d:"ਕਿਸੇ ਨੂੰ ਬਲਾਕ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਸੁਨੇਹੇ, ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਤਾਰੀਖ਼ਾਂ ਦੇ ਸਕ੍ਰੀਨਸ਼ਾਟ ਲਓ (ਹੇਠਾਂ ਗਾਈਡ ਦੇਖੋ)।"},
+      {h:"ਐਪ ਦੇ ਅੰਦਰ ਬਲਾਕ ਅਤੇ ਰਿਪੋਰਟ ਕਰੋ",d:"WhatsApp, Instagram, YouTube ਆਦਿ ਵਿੱਚ ਬਲਾਕ ਅਤੇ 'ਰਿਪੋਰਟ' ਬਟਨ ਨਾਲ ਉਸ ਵਿਅਕਤੀ ਦੀ ਸ਼ਿਕਾਇਤ ਕਰੋ।"},
+      {h:"ਕਿਸੇ ਭਰੋਸੇਯੋਗ ਵੱਡੇ ਨੂੰ ਦੱਸੋ",d:"ਉਨ੍ਹਾਂ ਨੂੰ ਦਿਖਾਓ ਕਿ ਕੀ ਹੋਇਆ। ਸ਼ਿਕਾਇਤ ਕਰਨ ਵਿੱਚ ਮਦਦ ਮੰਗੋ — ਅੱਗੇ ਦੇ ਕਦਮ ਇਕੱਲੇ ਚੁੱਕਣ ਦੀ ਲੋੜ ਨਹੀਂ।"},
+      {h:"ਲੋੜ ਹੋਵੇ ਤਾਂ ਸਰਕਾਰੀ ਸ਼ਿਕਾਇਤ ਕਰੋ",d:"1098 ਜਾਂ 1930 'ਤੇ ਕਾਲ ਕਰੋ, ਜਾਂ ਮਦਦ ਕਰ ਰਹੇ ਵੱਡੇ ਨਾਲ cybercrime.gov.in 'ਤੇ ਸ਼ਿਕਾਇਤ ਦਰਜ ਕਰੋ।"}
+    ],
+    evDo:["ਸੁਨੇਹਿਆਂ, ਯੂਜ਼ਰਨੇਮ ਅਤੇ ਤਾਰੀਖ਼ਾਂ ਦੇ ਸਾਫ਼ ਸਕ੍ਰੀਨਸ਼ਾਟ ਲਓ","ਪ੍ਰੋਫਾਈਲ ਲਿੰਕ ਜਾਂ ਫ਼ੋਨ ਨੰਬਰ ਸੇਵ ਕਰੋ","ਸਮਾਂ ਅਤੇ ਕੀ ਹੋਇਆ, ਨੋਟ ਕਰੋ","ਸਭ ਕੁਝ ਕਿਸੇ ਭਰੋਸੇਯੋਗ ਵੱਡੇ ਨੂੰ ਦਿਖਾਓ","ਵਿਅਕਤੀ ਨੂੰ ਬਲਾਕ ਕਰਨ ਤੋਂ ਬਾਅਦ ਵੀ ਸਬੂਤ ਰੱਖੋ"],
+    evDont:["ਸੁਨੇਹੇ ਜਾਂ ਚੈਟ ਮਿਟਾਓ ਨਾ","ਗੁੱਸੇ ਭਰੇ ਜਵਾਬ ਨਾ ਭੇਜੋ","ਆਪਣਾ OTP, ਪਾਸਵਰਡ ਜਾਂ ਫੋਟੋ ਸਾਂਝੀ ਨਾ ਕਰੋ","ਉਸ ਵਿਅਕਤੀ ਨੂੰ ਇਕੱਲੇ ਨਾ ਮਿਲੋ","ਇਹ ਸੋਚ ਕੇ ਨਾ ਲੁਕਾਓ ਕਿ ਆਪੇ ਰੁਕ ਜਾਵੇਗਾ"],
+    weList:["ਇੱਕ ਮਿੰਟ ਹੌਲੀ-ਹੌਲੀ ਸਾਹ ਲਓ (ਗੋਲੇ ਨੂੰ ਅਜ਼ਮਾਓ)","ਅੱਜ ਕਿਸੇ ਭਰੋਸੇਯੋਗ ਨਾਲ ਗੱਲ ਕਰੋ","ਆਪਣੀਆਂ ਭਾਵਨਾਵਾਂ ਲਿਖੋ — ਇਸ ਨਾਲ ਰਾਹਤ ਮਿਲਦੀ ਹੈ","ਫ਼ੋਨ ਜਾਂ ਐਪ ਤੋਂ ਥੋੜ੍ਹਾ ਬ੍ਰੇਕ ਲਓ","ਆਪਣੇ ਲਈ ਇੱਕ ਛੋਟੀ ਚੰਗੀ ਚੀਜ਼ ਕਰੋ"],
+    quiz:[
+      {q:"ਇੱਕ ਅਜਨਬੀ ਆਨਲਾਈਨ ਤੁਹਾਡੀ ਫੋਟੋ ਅਤੇ ਘਰ ਦਾ ਪਤਾ ਮੰਗਦਾ ਹੈ। ਤੁਸੀਂ ਕੀ ਕਰੋਗੇ?",o:["ਸ਼ਿਸ਼ਟਾਚਾਰ ਲਈ ਭੇਜ ਦਿਓ","ਸਾਂਝਾ ਨਾ ਕਰੋ, ਬਲਾਕ ਕਰੋ ਅਤੇ ਵੱਡੇ ਨੂੰ ਦੱਸੋ","ਪੁੱਛੋ ਕਿ ਕਿਉਂ ਚਾਹੀਦਾ ਹੈ"],a:1,f:"ਸਹੀ। ਅਜਨਬੀਆਂ ਨੂੰ ਨਿੱਜੀ ਜਾਣਕਾਰੀ ਕਦੇ ਨਾ ਦਿਓ — ਬਲਾਕ ਕਰੋ ਅਤੇ ਵੱਡੇ ਨੂੰ ਦੱਸੋ।"},
+      {q:"ਸੁਨੇਹਾ ਆਇਆ: 'ਤੁਸੀਂ ₹10,000 ਜਿੱਤੇ! ਇਸ ਲਿੰਕ 'ਤੇ ਕਲਿੱਕ ਕਰਕੇ OTP ਪਾਓ।' ਇਹ ਹੈ…",o:["ਅਸਲੀ ਇਨਾਮ","ਧੋਖਾ — OTP ਕਦੇ ਨਾ ਪਾਓ","ਅਜ਼ਮਾਉਣ ਲਾਇਕ"],a:1,f:"ਸਹੀ — ਅਸਲੀ ਇਨਾਮ ਕਦੇ OTP ਨਹੀਂ ਮੰਗਦੇ। ਇਹ ਧੋਖਾ ਹੈ।"},
+      {q:"ਇੱਕ ਸਹਿਪਾਠੀ ਵਾਰ-ਵਾਰ ਤੁਹਾਡੇ ਬਾਰੇ ਭੈੜਾ ਪੋਸਟ ਕਰਦਾ ਹੈ। ਸਭ ਤੋਂ ਵਧੀਆ ਪਹਿਲਾ ਕਦਮ…",o:["ਬਦਲੇ ਵਿੱਚ ਭੈੜਾ ਪੋਸਟ ਕਰੋ","ਸਕ੍ਰੀਨਸ਼ਾਟ ਸੰਭਾਲੋ ਅਤੇ ਭਰੋਸੇਯੋਗ ਵੱਡੇ ਨੂੰ ਦੱਸੋ","ਆਪਣਾ ਖਾਤਾ ਮਿਟਾ ਦਿਓ"],a:1,f:"ਹਾਂ — ਸਬੂਤ ਰੱਖੋ ਅਤੇ ਮਦਦ ਕਰਨ ਵਾਲੇ ਨੂੰ ਦੱਸੋ। ਆਨਲਾਈਨ ਜਵਾਬੀ ਝਗੜਾ ਸ਼ਾਇਦ ਹੀ ਮਦਦ ਕਰਦਾ ਹੈ।"},
+      {q:"ਕੋਈ ਤੁਹਾਡੀ ਨਿੱਜੀ ਫੋਟੋ ਸਾਂਝੀ ਕਰਨ ਦੀ ਧਮਕੀ ਦਿੰਦਾ ਹੈ। ਤੁਹਾਨੂੰ…",o:["ਉਨ੍ਹਾਂ ਦੀ ਗੱਲ ਮੰਨ ਲਓ","ਵੱਡੇ ਨੂੰ ਦੱਸੋ ਅਤੇ ਤੁਰੰਤ 1098 'ਤੇ ਕਾਲ ਕਰੋ","ਚੁੱਪ-ਚਾਪ ਆਪੇ ਨਿਪਟੋ"],a:1,f:"ਬਿਲਕੁਲ। ਇਹ ਗੰਭੀਰ ਜੁਰਮ ਹੈ — ਕਿਸੇ ਵੱਡੇ ਨੂੰ ਨਾਲ ਲਓ ਅਤੇ ਤੁਰੰਤ ਮਦਦ ਲਈ ਕਾਲ ਕਰੋ।"}
+    ]
+  }
+};
+
+/* card icons (reused) */
+const ICONS=[
+  '<path d="M8 10h8M8 14h5" stroke-linecap="round"/><path d="M21 12a8 8 0 01-11.5 7.2L3 21l1.8-6.5A8 8 0 1121 12z"/>',
+  '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+  '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/>',
+  '<path d="M12 2l3 6 6 .5-4.5 4L18 19l-6-3.2L6 19l1.5-6.5L3 8.5 9 8z"/>',
+  '<path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"/><path d="M9 12l2 2 4-4" stroke-linecap="round"/>',
+  '<path d="M12 3l9 6-9 6-9-6 9-6z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>'
+];
+
+/* ============ RENDER ============ */
+let lang="en";
+function T(){return I[lang];}
+
+function render(){
+  const t=T();
+  document.querySelectorAll('[data-i]').forEach(el=>{
+    const k=el.getAttribute('data-i');
+    if(t[k]!==undefined) el.textContent=t[k];
+  });
+  // cards
+  document.getElementById('awCards').innerHTML=t.cards.map((c,i)=>`
+    <div class="card">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linejoin="round">${ICONS[i]}</svg></div>
+      <h3>${c.t}</h3><p>${c.d}</p><span class="safe">${c.s}</span>
+    </div>`).join('');
+  // steps
+  document.getElementById('steps').innerHTML=t.steps.map((s,i)=>`
+    <div class="step"><span class="n">${i+1}</span><div><h3>${s.h}</h3><p>${s.d}</p></div></div>`).join('');
+  // evidence
+  document.getElementById('evDo').innerHTML=t.evDo.map(x=>`<li>${x}</li>`).join('');
+  document.getElementById('evDont').innerHTML=t.evDont.map(x=>`<li>${x}</li>`).join('');
+  // wellness list
+  document.getElementById('weList').innerHTML=t.weList.map(x=>`<li>${x}</li>`).join('');
+  // breather idle text
+  if(!breathing){document.getElementById('breather').textContent=t.breathIdle;}
+  document.getElementById('breathBtn').textContent=breathing?t.breathStop:t.breathStart;
+  // quiz
+  renderQuiz();
+}
+
+document.querySelectorAll('[data-setlang]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    lang=b.getAttribute('data-setlang');
+    document.body.setAttribute('data-lang',lang);
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-setlang]').forEach(x=>x.classList.toggle('on',x===b));
+    render();
+  });
+});
+
+/* ============ BREATHING TOOL ============ */
+let breathing=false, breathTimer=null;
+const breather=document.getElementById('breather');
+document.getElementById('breathBtn').addEventListener('click',()=>{
+  breathing=!breathing;
+  const t=T();
+  if(breathing){
+    breather.classList.add('go');
+    document.getElementById('breathBtn').textContent=t.breathStop;
+    const phases=[t.breatheIn,t.breatheHold,t.breatheOut,t.breatheHold];
+    let p=0;
+    breather.textContent=phases[0];
+    breathTimer=setInterval(()=>{p=(p+1)%4;breather.textContent=phases[p];},2000);
+  }else{
+    stopBreath();
+  }
+});
+function stopBreath(){
+  breathing=false;
+  breather.classList.remove('go');
+  clearInterval(breathTimer);
+  breather.textContent=T().breathIdle;
+  document.getElementById('breathBtn').textContent=T().breathStart;
+}
+
+/* ============ QUIZ ============ */
+let qi=0, answered=false;
+function renderQuiz(){
+  const t=T(), quiz=t.quiz;
+  if(qi>=quiz.length){
+    document.getElementById('qText').textContent=t.qDone;
+    document.getElementById('qOpts').innerHTML='';
+    document.getElementById('qFb').textContent='';
+    document.getElementById('qCount').textContent='';
+    document.getElementById('qNext').style.display='none';
+    return;
+  }
+  const q=quiz[qi];
+  document.getElementById('qCount').textContent=`${qi+1} / ${quiz.length}`;
+  document.getElementById('qText').textContent=q.q;
+  document.getElementById('qFb').textContent='';
+  document.getElementById('qNext').style.display='none';
+  answered=false;
+  document.getElementById('qOpts').innerHTML=q.o.map((o,i)=>`<button class="opt" data-oi="${i}">${o}</button>`).join('');
+  document.querySelectorAll('#qOpts .opt').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(answered)return;
+      answered=true;
+      const oi=+btn.getAttribute('data-oi');
+      document.querySelectorAll('#qOpts .opt').forEach((b,i)=>{
+        if(i===q.a)b.classList.add('correct');
+        else if(i===oi)b.classList.add('wrong');
+      });
+      document.getElementById('qFb').textContent=q.f;
+      document.getElementById('qNext').style.display='inline-block';
+    });
+  });
+}
+document.getElementById('qNext').addEventListener('click',()=>{qi++;renderQuiz();});
+
+/* smooth-scroll for in-page buttons (works in preview + production) */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id=a.getAttribute('href').slice(1);
+    const el=document.getElementById(id);
+    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+
+render();
+</script>
+</body>
+</html>
