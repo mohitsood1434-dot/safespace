@@ -685,5 +685,38 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 
 render();
 </script>
+  <!-- ===== Certificate — paste before </body> ===== -->
+<div id="certModal" class="cert-modal" onclick="if(event.target===this)this.style.display='none'">
+  <div class="cert-box">
+    <button class="cert-close" onclick="document.getElementById('certModal').style.display='none'">×</button>
+    <img src="certificate.png" alt="Certificate of Mentorship &amp; Authentication">
+    <a class="cert-dl" href="certificate.pdf" target="_blank" rel="noopener">Download PDF</a>
+  </div>
+</div>
+
+<style>
+.cert-badge{background:#1f3864;color:#fff;border:0;border-radius:10px;
+  padding:12px 18px;font-size:15px;font-weight:600;cursor:pointer;
+  margin:18px auto;display:block}
+.cert-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+  z-index:9999;align-items:center;justify-content:center;padding:16px}
+.cert-box{background:#fff;border-radius:14px;max-width:640px;width:100%;
+  max-height:90vh;overflow:auto;padding:14px;position:relative;text-align:center}
+.cert-box img{width:100%;height:auto;border-radius:8px}
+.cert-close{position:absolute;top:8px;right:12px;background:#eee;border:0;
+  border-radius:50%;width:34px;height:34px;font-size:22px;line-height:1;cursor:pointer}
+.cert-dl{display:inline-block;margin-top:12px;color:#1f3864;font-weight:600;font-size:14px}
+</style>
+
+<script>
+(function(){
+  var b=document.createElement('button');
+  b.className='cert-badge';
+  b.textContent='✓ Mentored & Verified — View Certificate';
+  b.onclick=function(){document.getElementById('certModal').style.display='flex';};
+  var f=document.querySelector('footer');
+  if(f){f.parentNode.insertBefore(b,f);}else{document.body.appendChild(b);}
+})();
+</script>
 </body>
 </html>
